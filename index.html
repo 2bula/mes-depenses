@@ -16,7 +16,6 @@
     <div id="root"></div>
     <script type="text/babel">
         const { useState, useEffect } = React;
-        const { PlusCircle, TrendingDown, TrendingUp, Calendar, Trash2 } = lucide;
 
         function ExpenseTracker() {
           const [transactions, setTransactions] = useState([]);
@@ -31,11 +30,11 @@
             loadTransactions();
           }, []);
 
-          const loadTransactions = async () => {
+          const loadTransactions = () => {
             try {
-              const result = await window.storage.get('transactions');
-              if (result && result.value) {
-                setTransactions(JSON.parse(result.value));
+              const stored = localStorage.getItem('transactions');
+              if (stored) {
+                setTransactions(JSON.parse(stored));
               }
             } catch (error) {
               console.log('Aucune donnée existante');
@@ -44,16 +43,16 @@
             }
           };
 
-          const saveTransactions = async (newTransactions) => {
+          const saveTransactions = (newTransactions) => {
             try {
-              await window.storage.set('transactions', JSON.stringify(newTransactions));
+              localStorage.setItem('transactions', JSON.stringify(newTransactions));
             } catch (error) {
               console.error('Erreur de sauvegarde:', error);
               alert('Erreur lors de la sauvegarde des données');
             }
           };
 
-          const addTransaction = async () => {
+          const addTransaction = () => {
             if (!amount || !description) {
               alert('Veuillez remplir tous les champs');
               return;
@@ -69,18 +68,18 @@
 
             const updated = [newTransaction, ...transactions];
             setTransactions(updated);
-            await saveTransactions(updated);
+            saveTransactions(updated);
 
             setAmount('');
             setDescription('');
             alert('Transaction enregistrée!');
           };
 
-          const deleteTransaction = async (id) => {
+          const deleteTransaction = (id) => {
             if (confirm('Supprimer cette transaction?')) {
               const updated = transactions.filter(t => t.id !== id);
               setTransactions(updated);
-              await saveTransactions(updated);
+              saveTransactions(updated);
             }
           };
 
@@ -114,162 +113,201 @@
           const balance = totalIncome - totalExpenses;
 
           if (loading) {
-            return React.createElement('div', { className: "min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center" },
-              React.createElement('div', { className: "text-xl text-gray-600" }, 'Chargement...')
+            return (
+              <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+                <div className="text-xl text-gray-600">Chargement...</div>
+              </div>
             );
           }
 
           return (
-            React.createElement('div', { className: "min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pb-24" },
-              React.createElement('div', { className: "bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-6 shadow-lg" },
-                React.createElement('h1', { className: "text-3xl font-bold mb-4" }, '💰 Mes Finances'),
+            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pb-24">
+              <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-6 shadow-lg">
+                <h1 className="text-3xl font-bold mb-4">💰 Mes Finances</h1>
                 
-                view === 'history' && filterPeriod !== 'all' && React.createElement('div', { className: "bg-white/30 backdrop-blur rounded-lg p-3 mb-3" },
-                  React.createElement('div', { className: "text-xs opacity-90 mb-1" }, 'Solde de la période sélectionnée'),
-                  React.createElement('div', { className: "text-2xl font-bold" }, balance.toFixed(2) + '$'),
-                  React.createElement('div', { className: "text-xs opacity-90 mt-1" }, 
-                    totalIncome.toFixed(2) + '$ - ' + totalExpenses.toFixed(2) + '$'
-                  )
-                ),
+                {view === 'history' && filterPeriod !== 'all' && (
+                  <div className="bg-white/30 backdrop-blur rounded-lg p-3 mb-3">
+                    <div className="text-xs opacity-90 mb-1">
+                      Solde de la période sélectionnée
+                    </div>
+                    <div className="text-2xl font-bold">
+                      {balance.toFixed(2)}$
+                    </div>
+                    <div className="text-xs opacity-90 mt-1">
+                      {totalIncome.toFixed(2)}$ - {totalExpenses.toFixed(2)}$
+                    </div>
+                  </div>
+                )}
                 
-                React.createElement('div', { className: "grid grid-cols-3 gap-3" },
-                  React.createElement('div', { className: "bg-white/20 backdrop-blur rounded-lg p-3" },
-                    React.createElement('div', { className: "text-xs opacity-90" }, 'Solde'),
-                    React.createElement('div', { className: "text-xl font-bold" }, balance.toFixed(2) + '$')
-                  ),
-                  React.createElement('div', { className: "bg-white/20 backdrop-blur rounded-lg p-3" },
-                    React.createElement('div', { className: "text-xs opacity-90" }, 'Revenus'),
-                    React.createElement('div', { className: "text-xl font-bold text-green-300" }, '+' + totalIncome.toFixed(2) + '$')
-                  ),
-                  React.createElement('div', { className: "bg-white/20 backdrop-blur rounded-lg p-3" },
-                    React.createElement('div', { className: "text-xs opacity-90" }, 'Dépenses'),
-                    React.createElement('div', { className: "text-xl font-bold text-red-300" }, '-' + totalExpenses.toFixed(2) + '$')
-                  )
-                )
-              ),
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-white/20 backdrop-blur rounded-lg p-3">
+                    <div className="text-xs opacity-90">Solde</div>
+                    <div className="text-xl font-bold">{balance.toFixed(2)}$</div>
+                  </div>
+                  <div className="bg-white/20 backdrop-blur rounded-lg p-3">
+                    <div className="text-xs opacity-90">Revenus</div>
+                    <div className="text-xl font-bold text-green-300">+{totalIncome.toFixed(2)}$</div>
+                  </div>
+                  <div className="bg-white/20 backdrop-blur rounded-lg p-3">
+                    <div className="text-xs opacity-90">Dépenses</div>
+                    <div className="text-xl font-bold text-red-300">-{totalExpenses.toFixed(2)}$</div>
+                  </div>
+                </div>
+              </div>
 
-              React.createElement('div', { className: "p-4" },
-                view === 'add' ? 
-                  React.createElement('div', { className: "bg-white rounded-xl shadow-lg p-6" },
-                    React.createElement('h2', { className: "text-xl font-bold mb-4 text-gray-800" }, 'Nouvelle transaction'),
+              <div className="p-4">
+                {view === 'add' ? (
+                  <div className="bg-white rounded-xl shadow-lg p-6">
+                    <h2 className="text-xl font-bold mb-4 text-gray-800">Nouvelle transaction</h2>
                     
-                    React.createElement('div', { className: "space-y-4" },
-                      React.createElement('div', null,
-                        React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" }, 'Type'),
-                        React.createElement('div', { className: "grid grid-cols-2 gap-2" },
-                          React.createElement('button', {
-                            onClick: () => setType('expense'),
-                            className: `p-3 rounded-lg font-medium transition ${type === 'expense' ? 'bg-red-500 text-white' : 'bg-gray-100 text-gray-700'}`
-                          }, '📉 Dépense'),
-                          React.createElement('button', {
-                            onClick: () => setType('income'),
-                            className: `p-3 rounded-lg font-medium transition ${type === 'income' ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-700'}`
-                          }, '📈 Revenu')
-                        )
-                      ),
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Type</label>
+                        <div className="grid grid-cols-2 gap-2">
+                          <button
+                            onClick={() => setType('expense')}
+                            className={`p-3 rounded-lg font-medium transition ${
+                              type === 'expense'
+                                ? 'bg-red-500 text-white'
+                                : 'bg-gray-100 text-gray-700'
+                            }`}
+                          >
+                            📉 Dépense
+                          </button>
+                          <button
+                            onClick={() => setType('income')}
+                            className={`p-3 rounded-lg font-medium transition ${
+                              type === 'income'
+                                ? 'bg-green-500 text-white'
+                                : 'bg-gray-100 text-gray-700'
+                            }`}
+                          >
+                            📈 Revenu
+                          </button>
+                        </div>
+                      </div>
 
-                      React.createElement('div', null,
-                        React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" }, 'Montant ($)'),
-                        React.createElement('input', {
-                          type: "number",
-                          step: "0.01",
-                          value: amount,
-                          onChange: (e) => setAmount(e.target.value),
-                          placeholder: "0.00",
-                          className: "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                        })
-                      ),
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Montant ($)</label>
+                        <input
+                          type="number"
+                          step="0.01"
+                          value={amount}
+                          onChange={(e) => setAmount(e.target.value)}
+                          placeholder="0.00"
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        />
+                      </div>
 
-                      React.createElement('div', null,
-                        React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" }, 'Description'),
-                        React.createElement('input', {
-                          type: "text",
-                          value: description,
-                          onChange: (e) => setDescription(e.target.value),
-                          placeholder: "Ex: Épicerie, Salaire, etc.",
-                          className: "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                        })
-                      ),
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                        <input
+                          type="text"
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
+                          placeholder="Ex: Épicerie, Salaire, etc."
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        />
+                      </div>
 
-                      React.createElement('button', {
-                        onClick: addTransaction,
-                        className: "w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 rounded-lg font-semibold hover:shadow-lg transition"
-                      }, '➕ Ajouter')
-                    )
-                  ) :
-                  React.createElement('div', { className: "bg-white rounded-xl shadow-lg p-6" },
-                    React.createElement('div', { className: "flex justify-between items-center mb-4" },
-                      React.createElement('h2', { className: "text-xl font-bold text-gray-800" }, 'Historique'),
-                      React.createElement('select', {
-                        value: filterPeriod,
-                        onChange: (e) => setFilterPeriod(e.target.value),
-                        className: "p-2 border border-gray-300 rounded-lg text-sm"
-                      },
-                        React.createElement('option', { value: "all" }, 'Tout'),
-                        React.createElement('option', { value: "today" }, "Aujourd'hui"),
-                        React.createElement('option', { value: "week" }, '7 derniers jours'),
-                        React.createElement('option', { value: "month" }, 'Ce mois'),
-                        React.createElement('option', { value: "year" }, 'Cette année')
-                      )
-                    ),
+                      <button
+                        onClick={addTransaction}
+                        className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 rounded-lg font-semibold hover:shadow-lg transition"
+                      >
+                        ➕ Ajouter
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-white rounded-xl shadow-lg p-6">
+                    <div className="flex justify-between items-center mb-4">
+                      <h2 className="text-xl font-bold text-gray-800">Historique</h2>
+                      <select
+                        value={filterPeriod}
+                        onChange={(e) => setFilterPeriod(e.target.value)}
+                        className="p-2 border border-gray-300 rounded-lg text-sm"
+                      >
+                        <option value="all">Tout</option>
+                        <option value="today">Aujourd'hui</option>
+                        <option value="week">7 derniers jours</option>
+                        <option value="month">Ce mois</option>
+                        <option value="year">Cette année</option>
+                      </select>
+                    </div>
 
-                    React.createElement('div', { className: "space-y-2 max-h-96 overflow-y-auto" },
-                      filteredTransactions.length === 0 ?
-                        React.createElement('div', { className: "text-center text-gray-400 py-8" }, 'Aucune transaction') :
-                        filteredTransactions.map(transaction =>
-                          React.createElement('div', {
-                            key: transaction.id,
-                            className: "flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
-                          },
-                            React.createElement('div', { className: "flex items-center space-x-3" },
-                              React.createElement('div', { 
-                                className: `p-2 rounded-full ${transaction.type === 'expense' ? 'bg-red-100' : 'bg-green-100'}`
-                              }, transaction.type === 'expense' ? '📉' : '📈'),
-                              React.createElement('div', null,
-                                React.createElement('div', { className: "font-medium text-gray-800" }, transaction.description),
-                                React.createElement('div', { className: "text-xs text-gray-500" },
-                                  new Date(transaction.date).toLocaleDateString('fr-CA', {
+                    <div className="space-y-2 max-h-96 overflow-y-auto">
+                      {filteredTransactions.length === 0 ? (
+                        <div className="text-center text-gray-400 py-8">
+                          Aucune transaction
+                        </div>
+                      ) : (
+                        filteredTransactions.map(transaction => (
+                          <div
+                            key={transaction.id}
+                            className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+                          >
+                            <div className="flex items-center space-x-3">
+                              <div className={`p-2 rounded-full ${
+                                transaction.type === 'expense' ? 'bg-red-100' : 'bg-green-100'
+                              }`}>
+                                {transaction.type === 'expense' ? '📉' : '📈'}
+                              </div>
+                              <div>
+                                <div className="font-medium text-gray-800">{transaction.description}</div>
+                                <div className="text-xs text-gray-500">
+                                  {new Date(transaction.date).toLocaleDateString('fr-CA', {
                                     day: 'numeric',
                                     month: 'short',
                                     year: 'numeric'
-                                  })
-                                )
-                              )
-                            ),
-                            React.createElement('div', { className: "flex items-center space-x-2" },
-                              React.createElement('span', { 
-                                className: `font-bold ${transaction.type === 'expense' ? 'text-red-600' : 'text-green-600'}`
-                              }, (transaction.type === 'expense' ? '-' : '+') + transaction.amount.toFixed(2) + '$'),
-                              React.createElement('button', {
-                                onClick: () => deleteTransaction(transaction.id),
-                                className: "p-1 text-red-500 hover:bg-red-50 rounded"
-                              }, '🗑️')
-                            )
-                          )
-                        )
-                    )
-                  )
-              ),
+                                  })}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <span className={`font-bold ${
+                                transaction.type === 'expense' ? 'text-red-600' : 'text-green-600'
+                              }`}>
+                                {transaction.type === 'expense' ? '-' : '+'}
+                                {transaction.amount.toFixed(2)}$
+                              </span>
+                              <button
+                                onClick={() => deleteTransaction(transaction.id)}
+                                className="p-1 text-red-500 hover:bg-red-50 rounded"
+                              >
+                                🗑️
+                              </button>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
 
-              React.createElement('div', { className: "fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg" },
-                React.createElement('div', { className: "grid grid-cols-2" },
-                  React.createElement('button', {
-                    onClick: () => setView('add'),
-                    className: `p-4 flex flex-col items-center transition ${view === 'add' ? 'text-indigo-600 bg-indigo-50' : 'text-gray-600'}`
-                  },
-                    React.createElement('span', { style: { fontSize: '24px' } }, '➕'),
-                    React.createElement('span', { className: "text-xs mt-1 font-medium" }, 'Ajouter')
-                  ),
-                  React.createElement('button', {
-                    onClick: () => setView('history'),
-                    className: `p-4 flex flex-col items-center transition ${view === 'history' ? 'text-indigo-600 bg-indigo-50' : 'text-gray-600'}`
-                  },
-                    React.createElement('span', { style: { fontSize: '24px' } }, '📅'),
-                    React.createElement('span', { className: "text-xs mt-1 font-medium" }, 'Historique')
-                  )
-                )
-              )
-            )
+              <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
+                <div className="grid grid-cols-2">
+                  <button
+                    onClick={() => setView('add')}
+                    className={`p-4 flex flex-col items-center transition ${
+                      view === 'add' ? 'text-indigo-600 bg-indigo-50' : 'text-gray-600'
+                    }`}
+                  >
+                    <span style={{ fontSize: '24px' }}>➕</span>
+                    <span className="text-xs mt-1 font-medium">Ajouter</span>
+                  </button>
+                  <button
+                    onClick={() => setView('history')}
+                    className={`p-4 flex flex-col items-center transition ${
+                      view === 'history' ? 'text-indigo-600 bg-indigo-50' : 'text-gray-600'
+                    }`}
+                  >
+                    <span style={{ fontSize: '24px' }}>📅</span>
+                    <span className="text-xs mt-1 font-medium">Historique</span>
+                  </button>
+                </div>
+              </div>
+            </div>
           );
         }
 
