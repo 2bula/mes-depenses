@@ -2,540 +2,278 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Mes Dépenses">
-    <meta name="theme-color" content="#3b82f6">
+    <meta name="apple-mobile-web-app-title" content="Mes Finances">
     <title>Gestionnaire de Dépenses</title>
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkdlc3Rpb25uYWlyZSBkZSBEw6lwZW5zZXMiLAogICJzaG9ydF9uYW1lIjogIk1lcyBEw6lwZW5zZXMiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZmZmZmZiIsCiAgInRoZW1lX2NvbG9yIjogIiMzYjgyZjYiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSFpwWlhkQ2IzZzlJakFnTUNBeE1USWdNVEV5SWo0OGNtVmpkQ0IzYVdSMGFEMGlNVEV5SWlCb1pXbG5hSFE5SWpFeE1pSWdabWxzYkQwaUl6TTJPRE15Wm1ZaUx6NDhjR0YwYUNCa1BTSk5OVFlnTWpRZ1F6UTRJREkwSURRd0lETXlJRFF3SURRMElGWTJPQ0JETkRBZ056WWdORGdnT0RRZ05UWWdPRFFnU0RjMklFTTROQ0E0TkNBNU1pQTNOaUE1TWlBMk9DQldORFFnUXpreUlETTBJRGswSURJMElEZzBJREkwSUVnMU5pQmFJaUJtYVd4c1BTSWpabVptSWk4K1BIUmxlSFFnZUQwaU5UWWlJSGs5SWpRNElpQm1hV3hzUFNJak16WTRNekptWmlJZ1ptOXVkQzFtWVcxcGJIazlJbUZ5YVdGc0lpQm1iMjUwTFhOcGVtVTlJakU0SWlCbWIyNTBMWGRsYVdkb2REMGlZbTlzWkNJK0pDUThMM1JsZUhRK1BDOXpkbWMrIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSFpwWlhkQ2IzZzlJakFnTUNBeE1USWdNVEV5SWo0OGNtVmpkQ0IzYVdSMGFEMGlNVEV5SWlCb1pXbG5hSFE5SWpFeE1pSWdabWxzYkQwaUl6TTJPRE15Wm1ZaUx6NDhjR0YwYUNCa1BTSk5OVFlnTWpRZ1F6UTRJREkwSURRd0lETXlJRFF3SURRMElGWTJPQ0JETkRBZ056WWdORGdnT0RRZ05UWWdPRFFnU0RjMklFTTROQ0E0TkNBNU1pQTNOaUE1TWlBMk9DQldORFFnUXpreUlETTBJRGswSURJMElEZzBJREkwSUVnMU5pQmFJaUJtYVd4c1BTSWpabVptSWk4K1BIUmxlSFFnZUQwaU5UWWlJSGs5SWpRNElpQm1hV3hzUFNJak16WTRNekptWmlJZ1ptOXVkQzFtWVcxcGJIazlJbUZ5YVdGc0lpQm1iMjUwTFhOcGVtVTlJakU0SWlCbWIyNTBMWGRsYVdkb2REMGlZbTlzWkNJK0pDUThMM1JsZUhRK1BDOXpkbWMrIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0KfQ==">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #EFF6FF 0%, #E0E7FF 100%);
-            min-height: 100vh;
-            padding: 16px;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .card {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            padding: 24px;
-            margin-bottom: 16px;
-        }
-        h1 {
-            color: #1f2937;
-            font-size: 28px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .subtitle {
-            color: #6b7280;
-            margin-bottom: 16px;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-        .stat-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 20px;
-        }
-        .stat-label {
-            color: #6b7280;
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-        .stat-value {
-            font-size: 32px;
-            font-weight: bold;
-        }
-        .input-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        input, select, button {
-            padding: 12px;
-            border: 2px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 16px;
-            font-family: inherit;
-        }
-        input:focus, select:focus {
-            outline: none;
-            border-color: #3b82f6;
-        }
-        button {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: background 0.2s;
-        }
-        button:hover {
-            background: #2563eb;
-        }
-        button:active {
-            transform: scale(0.98);
-        }
-        .btn-secondary {
-            background: #6b7280;
-        }
-        .btn-secondary:hover {
-            background: #4b5563;
-        }
-        .btn-success {
-            background: #10b981;
-        }
-        .btn-success:hover {
-            background: #059669;
-        }
-        .btn-danger {
-            background: #ef4444;
-        }
-        .btn-danger:hover {
-            background: #dc2626;
-        }
-        .filter-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-        .filter-btn {
-            padding: 8px 16px;
-            background: #e5e7eb;
-            color: #374151;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        .filter-btn.active {
-            background: #3b82f6;
-            color: white;
-        }
-        .date-range {
-            background: #dbeafe;
-            border: 2px solid #93c5fd;
-            border-radius: 8px;
-            padding: 16px;
-            margin-top: 16px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 16px;
-        }
-        th {
-            text-align: left;
-            padding: 12px;
-            color: #374151;
-            border-bottom: 2px solid #e5e7eb;
-            font-weight: 600;
-        }
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #f3f4f6;
-        }
-        tr:hover {
-            background: #f9fafb;
-        }
-        .category-badge {
-            display: inline-block;
-            background: #dbeafe;
-            color: #1e40af;
-            padding: 4px 12px;
-            border-radius: 16px;
-            font-size: 14px;
-        }
-        .action-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 4px;
-            color: #6b7280;
-            transition: color 0.2s;
-        }
-        .action-btn:hover {
-            color: #3b82f6;
-        }
-        .text-link {
-            color: #3b82f6;
-            cursor: pointer;
-            font-weight: 500;
-            margin-top: 12px;
-            display: inline-block;
-        }
-        .empty-state {
-            text-align: center;
-            padding: 48px;
-            color: #6b7280;
-        }
-        .install-prompt {
-            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            color: white;
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .install-prompt button {
-            background: white;
-            color: #3b82f6;
-        }
-        @media (max-width: 768px) {
-            body {
-                padding: 8px;
-            }
-            .card {
-                padding: 16px;
-            }
-            h1 {
-                font-size: 24px;
-            }
-            .input-grid {
-                grid-template-columns: 1fr;
-            }
-            table {
-                font-size: 14px;
-            }
-            th, td {
-                padding: 8px;
-            }
-        }
-    </style>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <div class="container">
-        <div id="installPrompt" class="install-prompt" style="display: none;">
-            <span>📱 Installez l'app sur votre écran d'accueil !</span>
-            <button onclick="hideInstallPrompt()">OK</button>
-        </div>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { PlusCircle, TrendingDown, TrendingUp, Calendar, Trash2 } = lucide;
 
-        <div class="card">
-            <h1>💰 Gestionnaire de Dépenses</h1>
-            <div class="subtitle">Suivez vos dépenses quotidiennes facilement</div>
-        </div>
+        function ExpenseTracker() {
+          const [transactions, setTransactions] = useState([]);
+          const [amount, setAmount] = useState('');
+          const [description, setDescription] = useState('');
+          const [type, setType] = useState('expense');
+          const [view, setView] = useState('add');
+          const [filterPeriod, setFilterPeriod] = useState('all');
+          const [loading, setLoading] = useState(true);
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Total des dépenses</div>
-                <div class="stat-value" style="color: #3b82f6;" id="totalAmount">0.00 $</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Nombre de dépenses</div>
-                <div class="stat-value" style="color: #10b981;" id="expenseCount">0</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Moyenne par dépense</div>
-                <div class="stat-value" style="color: #8b5cf6;" id="avgAmount">0.00 $</div>
-            </div>
-        </div>
+          useEffect(() => {
+            loadTransactions();
+          }, []);
 
-        <div class="card">
-            <h2 style="margin-bottom: 16px;" id="formTitle">Ajouter une dépense</h2>
-            <div class="input-grid">
-                <input type="date" id="expenseDate">
-                <input type="number" step="0.01" placeholder="Montant" id="expenseAmount">
-                <select id="expenseCategory"></select>
-                <input type="text" placeholder="Description" id="expenseDescription">
-                <button onclick="addOrUpdateExpense()" id="submitBtn">
-                    ➕ Ajouter
-                </button>
-            </div>
-            <div id="categoryForm" style="display: none;">
-                <div style="display: flex; gap: 8px; margin-top: 12px;">
-                    <input type="text" placeholder="Nouvelle catégorie" id="newCategory" style="flex: 1;">
-                    <button onclick="addCategory()" class="btn-success">Ajouter</button>
-                    <button onclick="hideCategoryForm()" class="btn-secondary">Annuler</button>
-                </div>
-            </div>
-            <div class="text-link" onclick="showCategoryForm()" id="addCategoryLink">
-                + Ajouter une catégorie personnalisée
-            </div>
-        </div>
-
-        <div class="card">
-            <h2 style="margin-bottom: 16px;">Filtrer par période</h2>
-            <div class="filter-buttons">
-                <button class="filter-btn active" onclick="setFilter('all')">Tout</button>
-                <button class="filter-btn" onclick="setFilter('today')">Aujourd'hui</button>
-                <button class="filter-btn" onclick="setFilter('week')">7 derniers jours</button>
-                <button class="filter-btn" onclick="setFilter('month')">30 derniers jours</button>
-                <button class="filter-btn" onclick="setFilter('custom')">Période personnalisée</button>
-            </div>
-            <div id="dateRange" class="date-range" style="display: none;">
-                <h3 style="margin-bottom: 12px; font-size: 16px;">Sélectionner une période</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Date de début</label>
-                        <input type="date" id="startDate" onchange="updateExpenseList()">
-                    </div>
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 500;">Date de fin</label>
-                        <input type="date" id="endDate" onchange="updateExpenseList()">
-                    </div>
-                </div>
-                <div id="dateInfo" style="margin-top: 12px; font-size: 14px; color: #374151;"></div>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2 style="margin-bottom: 16px;">Liste des dépenses</h2>
-            <div style="overflow-x: auto;">
-                <table id="expenseTable">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Catégorie</th>
-                            <th>Description</th>
-                            <th style="text-align: right;">Montant</th>
-                            <th style="text-align: right;">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="expenseTableBody">
-                        <tr>
-                            <td colspan="5" class="empty-state">Aucune dépense enregistrée</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let expenses = [];
-        let categories = ['Alimentation', 'Transport', 'Logement', 'Loisirs', 'Santé', 'Vêtements', 'Éducation', 'Autre'];
-        let editingId = null;
-        let currentFilter = 'all';
-
-        // Initialize
-        document.getElementById('expenseDate').valueAsDate = new Date();
-        loadData();
-        updateCategorySelect();
-        updateExpenseList();
-
-        // PWA Install Prompt
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('installPrompt').style.display = 'flex';
-        });
-
-        function hideInstallPrompt() {
-            document.getElementById('installPrompt').style.display = 'none';
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
+          const loadTransactions = async () => {
+            try {
+              const result = await window.storage.get('transactions');
+              if (result && result.value) {
+                setTransactions(JSON.parse(result.value));
+              }
+            } catch (error) {
+              console.log('Aucune donnée existante');
+            } finally {
+              setLoading(false);
             }
-        }
+          };
 
-        // Load data from localStorage
-        function loadData() {
-            const savedExpenses = localStorage.getItem('expenses');
-            const savedCategories = localStorage.getItem('categories');
-            if (savedExpenses) expenses = JSON.parse(savedExpenses);
-            if (savedCategories) categories = JSON.parse(savedCategories);
-        }
+          const saveTransactions = async (newTransactions) => {
+            try {
+              await window.storage.set('transactions', JSON.stringify(newTransactions));
+            } catch (error) {
+              console.error('Erreur de sauvegarde:', error);
+              alert('Erreur lors de la sauvegarde des données');
+            }
+          };
 
-        // Save data to localStorage
-        function saveData() {
-            localStorage.setItem('expenses', JSON.stringify(expenses));
-            localStorage.setItem('categories', JSON.stringify(categories));
-        }
-
-        function updateCategorySelect() {
-            const select = document.getElementById('expenseCategory');
-            select.innerHTML = categories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
-        }
-
-        function addOrUpdateExpense() {
-            const date = document.getElementById('expenseDate').value;
-            const amount = parseFloat(document.getElementById('expenseAmount').value);
-            const category = document.getElementById('expenseCategory').value;
-            const description = document.getElementById('expenseDescription').value;
-
-            if (!amount || amount <= 0) {
-                alert('Veuillez entrer un montant valide');
-                return;
+          const addTransaction = async () => {
+            if (!amount || !description) {
+              alert('Veuillez remplir tous les champs');
+              return;
             }
 
-            if (editingId) {
-                const index = expenses.findIndex(e => e.id === editingId);
-                expenses[index] = { id: editingId, date, amount, category, description };
-                editingId = null;
-                document.getElementById('formTitle').textContent = 'Ajouter une dépense';
-                document.getElementById('submitBtn').innerHTML = '➕ Ajouter';
-            } else {
-                expenses.push({ id: Date.now(), date, amount, category, description });
+            const newTransaction = {
+              id: Date.now(),
+              amount: parseFloat(amount),
+              description,
+              type,
+              date: new Date().toISOString()
+            };
+
+            const updated = [newTransaction, ...transactions];
+            setTransactions(updated);
+            await saveTransactions(updated);
+
+            setAmount('');
+            setDescription('');
+            alert('Transaction enregistrée!');
+          };
+
+          const deleteTransaction = async (id) => {
+            if (confirm('Supprimer cette transaction?')) {
+              const updated = transactions.filter(t => t.id !== id);
+              setTransactions(updated);
+              await saveTransactions(updated);
             }
+          };
 
-            saveData();
-            resetForm();
-            updateExpenseList();
-        }
-
-        function resetForm() {
-            document.getElementById('expenseDate').valueAsDate = new Date();
-            document.getElementById('expenseAmount').value = '';
-            document.getElementById('expenseDescription').value = '';
-            document.getElementById('expenseCategory').selectedIndex = 0;
-        }
-
-        function editExpense(id) {
-            const expense = expenses.find(e => e.id === id);
-            editingId = id;
-            document.getElementById('expenseDate').value = expense.date;
-            document.getElementById('expenseAmount').value = expense.amount;
-            document.getElementById('expenseCategory').value = expense.category;
-            document.getElementById('expenseDescription').value = expense.description;
-            document.getElementById('formTitle').textContent = 'Modifier la dépense';
-            document.getElementById('submitBtn').innerHTML = '💾 Sauvegarder';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function deleteExpense(id) {
-            if (confirm('Êtes-vous sûr de vouloir supprimer cette dépense ?')) {
-                expenses = expenses.filter(e => e.id !== id);
-                saveData();
-                updateExpenseList();
-            }
-        }
-
-        function setFilter(filter) {
-            currentFilter = filter;
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById('dateRange').style.display = filter === 'custom' ? 'block' : 'none';
-            updateExpenseList();
-        }
-
-        function getFilteredExpenses() {
+          const getFilteredTransactions = () => {
             const now = new Date();
-            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-            return expenses.filter(exp => {
-                const expDate = new Date(exp.date);
-                switch(currentFilter) {
-                    case 'today':
-                        return expDate >= today;
-                    case 'week':
-                        const weekAgo = new Date(today);
-                        weekAgo.setDate(weekAgo.getDate() - 7);
-                        return expDate >= weekAgo;
-                    case 'month':
-                        const monthAgo = new Date(today);
-                        monthAgo.setMonth(monthAgo.getMonth() - 1);
-                        return expDate >= monthAgo;
-                    case 'custom':
-                        const startDate = document.getElementById('startDate').value;
-                        const endDate = document.getElementById('endDate').value;
-                        if (!startDate && !endDate) return true;
-                        const start = startDate ? new Date(startDate) : new Date('1900-01-01');
-                        const end = endDate ? new Date(endDate) : new Date('2100-12-31');
-                        return expDate >= start && expDate <= end;
-                    default:
-                        return true;
-                }
+            return transactions.filter(t => {
+              const transDate = new Date(t.date);
+              switch(filterPeriod) {
+                case 'today':
+                  return transDate.toDateString() === now.toDateString();
+                case 'week':
+                  const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                  return transDate >= weekAgo;
+                case 'month':
+                  return transDate.getMonth() === now.getMonth() && 
+                         transDate.getFullYear() === now.getFullYear();
+                case 'year':
+                  return transDate.getFullYear() === now.getFullYear();
+                default:
+                  return true;
+              }
             });
+          };
+
+          const filteredTransactions = getFilteredTransactions();
+          const expenses = filteredTransactions.filter(t => t.type === 'expense');
+          const income = filteredTransactions.filter(t => t.type === 'income');
+          
+          const totalExpenses = expenses.reduce((sum, t) => sum + t.amount, 0);
+          const totalIncome = income.reduce((sum, t) => sum + t.amount, 0);
+          const balance = totalIncome - totalExpenses;
+
+          if (loading) {
+            return React.createElement('div', { className: "min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center" },
+              React.createElement('div', { className: "text-xl text-gray-600" }, 'Chargement...')
+            );
+          }
+
+          return (
+            React.createElement('div', { className: "min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pb-24" },
+              React.createElement('div', { className: "bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-6 shadow-lg" },
+                React.createElement('h1', { className: "text-3xl font-bold mb-4" }, '💰 Mes Finances'),
+                
+                view === 'history' && filterPeriod !== 'all' && React.createElement('div', { className: "bg-white/30 backdrop-blur rounded-lg p-3 mb-3" },
+                  React.createElement('div', { className: "text-xs opacity-90 mb-1" }, 'Solde de la période sélectionnée'),
+                  React.createElement('div', { className: "text-2xl font-bold" }, balance.toFixed(2) + '$'),
+                  React.createElement('div', { className: "text-xs opacity-90 mt-1" }, 
+                    totalIncome.toFixed(2) + '$ - ' + totalExpenses.toFixed(2) + '$'
+                  )
+                ),
+                
+                React.createElement('div', { className: "grid grid-cols-3 gap-3" },
+                  React.createElement('div', { className: "bg-white/20 backdrop-blur rounded-lg p-3" },
+                    React.createElement('div', { className: "text-xs opacity-90" }, 'Solde'),
+                    React.createElement('div', { className: "text-xl font-bold" }, balance.toFixed(2) + '$')
+                  ),
+                  React.createElement('div', { className: "bg-white/20 backdrop-blur rounded-lg p-3" },
+                    React.createElement('div', { className: "text-xs opacity-90" }, 'Revenus'),
+                    React.createElement('div', { className: "text-xl font-bold text-green-300" }, '+' + totalIncome.toFixed(2) + '$')
+                  ),
+                  React.createElement('div', { className: "bg-white/20 backdrop-blur rounded-lg p-3" },
+                    React.createElement('div', { className: "text-xs opacity-90" }, 'Dépenses'),
+                    React.createElement('div', { className: "text-xl font-bold text-red-300" }, '-' + totalExpenses.toFixed(2) + '$')
+                  )
+                )
+              ),
+
+              React.createElement('div', { className: "p-4" },
+                view === 'add' ? 
+                  React.createElement('div', { className: "bg-white rounded-xl shadow-lg p-6" },
+                    React.createElement('h2', { className: "text-xl font-bold mb-4 text-gray-800" }, 'Nouvelle transaction'),
+                    
+                    React.createElement('div', { className: "space-y-4" },
+                      React.createElement('div', null,
+                        React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" }, 'Type'),
+                        React.createElement('div', { className: "grid grid-cols-2 gap-2" },
+                          React.createElement('button', {
+                            onClick: () => setType('expense'),
+                            className: `p-3 rounded-lg font-medium transition ${type === 'expense' ? 'bg-red-500 text-white' : 'bg-gray-100 text-gray-700'}`
+                          }, '📉 Dépense'),
+                          React.createElement('button', {
+                            onClick: () => setType('income'),
+                            className: `p-3 rounded-lg font-medium transition ${type === 'income' ? 'bg-green-500 text-white' : 'bg-gray-100 text-gray-700'}`
+                          }, '📈 Revenu')
+                        )
+                      ),
+
+                      React.createElement('div', null,
+                        React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" }, 'Montant ($)'),
+                        React.createElement('input', {
+                          type: "number",
+                          step: "0.01",
+                          value: amount,
+                          onChange: (e) => setAmount(e.target.value),
+                          placeholder: "0.00",
+                          className: "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        })
+                      ),
+
+                      React.createElement('div', null,
+                        React.createElement('label', { className: "block text-sm font-medium text-gray-700 mb-2" }, 'Description'),
+                        React.createElement('input', {
+                          type: "text",
+                          value: description,
+                          onChange: (e) => setDescription(e.target.value),
+                          placeholder: "Ex: Épicerie, Salaire, etc.",
+                          className: "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        })
+                      ),
+
+                      React.createElement('button', {
+                        onClick: addTransaction,
+                        className: "w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 rounded-lg font-semibold hover:shadow-lg transition"
+                      }, '➕ Ajouter')
+                    )
+                  ) :
+                  React.createElement('div', { className: "bg-white rounded-xl shadow-lg p-6" },
+                    React.createElement('div', { className: "flex justify-between items-center mb-4" },
+                      React.createElement('h2', { className: "text-xl font-bold text-gray-800" }, 'Historique'),
+                      React.createElement('select', {
+                        value: filterPeriod,
+                        onChange: (e) => setFilterPeriod(e.target.value),
+                        className: "p-2 border border-gray-300 rounded-lg text-sm"
+                      },
+                        React.createElement('option', { value: "all" }, 'Tout'),
+                        React.createElement('option', { value: "today" }, "Aujourd'hui"),
+                        React.createElement('option', { value: "week" }, '7 derniers jours'),
+                        React.createElement('option', { value: "month" }, 'Ce mois'),
+                        React.createElement('option', { value: "year" }, 'Cette année')
+                      )
+                    ),
+
+                    React.createElement('div', { className: "space-y-2 max-h-96 overflow-y-auto" },
+                      filteredTransactions.length === 0 ?
+                        React.createElement('div', { className: "text-center text-gray-400 py-8" }, 'Aucune transaction') :
+                        filteredTransactions.map(transaction =>
+                          React.createElement('div', {
+                            key: transaction.id,
+                            className: "flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+                          },
+                            React.createElement('div', { className: "flex items-center space-x-3" },
+                              React.createElement('div', { 
+                                className: `p-2 rounded-full ${transaction.type === 'expense' ? 'bg-red-100' : 'bg-green-100'}`
+                              }, transaction.type === 'expense' ? '📉' : '📈'),
+                              React.createElement('div', null,
+                                React.createElement('div', { className: "font-medium text-gray-800" }, transaction.description),
+                                React.createElement('div', { className: "text-xs text-gray-500" },
+                                  new Date(transaction.date).toLocaleDateString('fr-CA', {
+                                    day: 'numeric',
+                                    month: 'short',
+                                    year: 'numeric'
+                                  })
+                                )
+                              )
+                            ),
+                            React.createElement('div', { className: "flex items-center space-x-2" },
+                              React.createElement('span', { 
+                                className: `font-bold ${transaction.type === 'expense' ? 'text-red-600' : 'text-green-600'}`
+                              }, (transaction.type === 'expense' ? '-' : '+') + transaction.amount.toFixed(2) + '$'),
+                              React.createElement('button', {
+                                onClick: () => deleteTransaction(transaction.id),
+                                className: "p-1 text-red-500 hover:bg-red-50 rounded"
+                              }, '🗑️')
+                            )
+                          )
+                        )
+                    )
+                  )
+              ),
+
+              React.createElement('div', { className: "fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg" },
+                React.createElement('div', { className: "grid grid-cols-2" },
+                  React.createElement('button', {
+                    onClick: () => setView('add'),
+                    className: `p-4 flex flex-col items-center transition ${view === 'add' ? 'text-indigo-600 bg-indigo-50' : 'text-gray-600'}`
+                  },
+                    React.createElement('span', { style: { fontSize: '24px' } }, '➕'),
+                    React.createElement('span', { className: "text-xs mt-1 font-medium" }, 'Ajouter')
+                  ),
+                  React.createElement('button', {
+                    onClick: () => setView('history'),
+                    className: `p-4 flex flex-col items-center transition ${view === 'history' ? 'text-indigo-600 bg-indigo-50' : 'text-gray-600'}`
+                  },
+                    React.createElement('span', { style: { fontSize: '24px' } }, '📅'),
+                    React.createElement('span', { className: "text-xs mt-1 font-medium" }, 'Historique')
+                  )
+                )
+              )
+            )
+          );
         }
 
-        function updateExpenseList() {
-            const filtered = getFilteredExpenses();
-            const tbody = document.getElementById('expenseTableBody');
-            
-            // Update stats
-            const total = filtered.reduce((sum, e) => sum + e.amount, 0);
-            document.getElementById('totalAmount').textContent = total.toFixed(2) + ' $';
-            document.getElementById('expenseCount').textContent = filtered.length;
-            document.getElementById('avgAmount').textContent = (filtered.length > 0 ? total / filtered.length : 0).toFixed(2) + ' $';
-
-            // Update date info
-            if (currentFilter === 'custom') {
-                const start = document.getElementById('startDate').value;
-                const end = document.getElementById('endDate').value;
-                if (start && end) {
-                    document.getElementById('dateInfo').textContent = `📅 Affichage des dépenses du ${new Date(start).toLocaleDateString('fr-FR')} au ${new Date(end).toLocaleDateString('fr-FR')}`;
-                } else {
-                    document.getElementById('dateInfo').textContent = '';
-                }
-            }
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Aucune dépense enregistrée</td></tr>';
-                return;
-            }
-
-            filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            tbody.innerHTML = filtered.map(exp => `
-                <tr>
-                    <td>${new Date(exp.date).toLocaleDateString('fr-FR')}</td>
-                    <td><span class="category-badge">${exp.category}</span></td>
-                    <td>${exp.description || '-'}</td>
-                    <td style="text-align: right; font-weight: 600;">${exp.amount.toFixed(2)} $</td>
-                    <td style="text-align: right;">
-                        <button class="action-btn" onclick="editExpense(${exp.id})">✏️</button>
-                        <button class="action-btn" onclick="deleteExpense(${exp.id})" style="color: #ef4444;">🗑️</button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function showCategoryForm() {
-            document.getElementById('categoryForm').style.display = 'block';
-            document.getElementById('addCategoryLink').style.display = 'none';
-        }
-
-        function hideCategoryForm() {
-            document.getElementById('categoryForm').style.display = 'none';
-            document.getElementById('addCategoryLink').style.display = 'block';
-            document.getElementById('newCategory').value = '';
-        }
-
-        function addCategory() {
-            const newCat = document.getElementById('newCategory').value.trim();
-            if (newCat && !categories.includes(newCat)) {
-                categories.push(newCat);
-                saveData();
-                updateCategorySelect();
-                hideCategoryForm();
-            }
-        }
-
-        // Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdpbnN0YWxsJywgZnVuY3Rpb24oZXZlbnQpIHsKICBzZWxmLnNraXBXYWl0aW5nKCk7Cn0pOwoKc2VsZi5hZGRFdmVudExpc3RlbmVyKCdmZXRjaCcsIGZ1bmN0aW9uKGV2ZW50KSB7CiAgZXZlbnQucmVzcG9uZFdpdGgoZmV0Y2goZXZlbnQucmVxdWVzdCkpOwp9KTs=')
-                .catch(err => console.log('Service Worker registration failed'));
-        }
+        ReactDOM.render(React.createElement(ExpenseTracker), document.getElementById('root'));
     </script>
 </body>
 </html>
